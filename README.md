@@ -12,9 +12,22 @@ Ejemplo de imagenes contenidas en la base de datos MNIST:
 
 ## Arquitectura de la Red con Keras
 ```
-nn = models.Sequential()    
-nn.add(layers.Dense(units=512,activation='relu', input_shape=(szIm,)))         
-nn.add(layers.Dense(units=10, activation='softmax'))
+# Arquitectura de la red
+convNN = models.Sequential()
+# Agregamos las capas convolucionales
+convNN.add(layers.Conv2D(filters     =32, 
+                         kernel_size =(3, 3), 
+                         activation  ='relu', 
+                         input_shape =(28, 28, 1)))
+convNN.add(layers.MaxPooling2D(pool_size=(2, 2)))
+convNN.add(layers.Conv2D(filters=64, kernel_size=(3, 3), activation='relu'))
+convNN.add(layers.MaxPooling2D(pool_size=(2, 2)))
+convNN.add(layers.Conv2D(filters=64, kernel_size=(3, 3), activation='relu'))
+
+# Ahora agregamos una red similar con una arquitectura perceptron multicapas
+convNN.add(layers.Flatten())
+convNN.add(layers.Dense(units=64, activation='relu'))
+convNN.add(layers.Dense(units=10, activation='softmax'))
 ```
 
 ## Arquitectura de la Red con PyTorch
